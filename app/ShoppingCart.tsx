@@ -10,9 +10,6 @@ type Props = {};
 const ShoppingCart = (props: Props) => {
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.text}>Cart</Text>
-      </View>
       <FlatList
         data={cart}
         renderItem={({ item }) => <CartListItem cartItem={item} />}
@@ -45,16 +42,5 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 18,
     fontWeight: "600",
-  },
-  header: {
-    borderBottomWidth: 2,
-    borderColor: "#e0e0e0",
-    padding: 10,
-    marginHorizontal: 20,
-  },
-  text: {
-    fontSize: 18,
-    fontWeight: "600",
-    textAlign: "center",
   },
 });

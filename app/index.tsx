@@ -1,27 +1,68 @@
-import { View, Image, FlatList, StyleSheet, Pressable } from "react-native";
-import React from "react";
-import products from "../data/products";
-import { Link, Route, router } from "expo-router";
+import {
+  View,
+  Image,
+  FlatList,
+  StyleSheet,
+  Pressable,
+  Text,
+} from "react-native";
+import { useSelector, useDispatch } from "react-redux";
+import { router } from "expo-router";
 import { MaterialIcons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { setProduct } from "../context/productSlice";
 
 type Props = {};
 
 const ProductScreen = (props: Props) => {
   const handleRouting = (route: string) => {
+    //@ts-ignore
     router.push(route);
   };
+  //@ts-ignore
+  const products = useSelector((state): any => state.product.products);
+  const dispatch = useDispatch();
 
   return (
     <SafeAreaView>
       <View style={styles.header}>
-        <MaterialIcons name="menu" size={40} color="black" />
         <MaterialIcons
-          name="shopping-cart"
+          name="menu"
           size={40}
           color="black"
-          onPress={() => handleRouting("/ShoppingCart")}
+          onPress={() => handleRouting("/MenuModal")}
         />
+        <Pressable onPress={() => handleRouting("/ShoppingCart")}>
+          <View
+            style={{
+              position: "absolute",
+              right: 0,
+              backgroundColor: "red",
+              height: 20,
+              aspectRatio: 1,
+              borderRadius: 50,
+              zIndex: 1,
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <Text
+              style={{
+                color: "white",
+                alignSelf: "center",
+                fontWeight: "bold",
+              }}
+            >
+              3
+            </Text>
+          </View>
+          <MaterialIcons
+            name="shopping-cart"
+            size={40}
+            color="black"
+            style={{ position: "relative" }}
+          />
+        </Pressable>
       </View>
       <FlatList
         data={products}
@@ -29,7 +70,7 @@ const ProductScreen = (props: Props) => {
           return (
             <Pressable
               style={styles.itemContainer}
-              onPress={() => handleRouting("/ProductDetailScreen")}
+              onPress={() => dispatch(setProduct(item.id))}
             >
               <Image source={{ uri: item.image }} style={styles.image} />
             </Pressable>
