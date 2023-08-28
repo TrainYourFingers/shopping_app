@@ -10,7 +10,8 @@ import {
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { setCartItems } from "../context/cartSlice";
-import Toast from "react-native-root-toast";
+import Toaster from "../components/common/Toaster";
+import toast from "../components/common/toast";
 
 type Props = {};
 
@@ -24,9 +25,11 @@ const ProductDetailScreen = (props: Props) => {
 
   const addItem = () => {
     dispatch(setCartItems(product));
+    toast.success({ message: "Item Added Successfully" });
   };
   return (
     <View>
+      <Toaster />
       <ScrollView>
         <FlatList
           data={product.images}
