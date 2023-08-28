@@ -1,17 +1,20 @@
 import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 import React from "react";
-import cart from "../data/cart";
 import CartListItem from "../components/CartListItem";
 import ShoppingCartTotals from "../components/ShoppingCartTotals";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useSelector } from "react-redux";
 
 type Props = {};
 
 const ShoppingCart = (props: Props) => {
+  //@ts-ignore
+  const addedItem = useSelector((state) => state.cart.cartItems);
+
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        data={cart}
+        data={addedItem}
         renderItem={({ item }) => <CartListItem cartItem={item} />}
         ListFooterComponent={() => <ShoppingCartTotals />}
       />

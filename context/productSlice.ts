@@ -14,7 +14,7 @@ const productSlice = createSlice({
     setProduct: (state: any, action: any) => {
       state.selectedProduct = state.products.find(
         //@ts-ignore
-        (item): any => item.id === action.payload
+        (item) => item.id === action.payload
       );
       router.push("/ProductDetailScreen");
     },

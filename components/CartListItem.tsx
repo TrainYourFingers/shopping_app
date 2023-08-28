@@ -1,18 +1,36 @@
 import { View, Text, StyleSheet, Image } from "react-native";
 import { Feather } from "@expo/vector-icons";
+import { useDispatch } from "react-redux";
+import { removeCartItems } from "../context/cartSlice";
 
 const CartListItem = ({ cartItem }: any) => {
+  const dispatch = useDispatch();
+
   const increaseQuantity = () => {};
 
   const decreaseQuantity = () => {};
 
+  const removeItem = () => {
+    dispatch(removeCartItems(cartItem.newItem.id));
+  };
+
   return (
     <View style={styles.container}>
-      <Image source={{ uri: cartItem.product.image }} style={styles.image} />
+      <Image source={{ uri: cartItem.newItem.image }} style={styles.image} />
       <View style={styles.contentContainer}>
-        <Text style={styles.name}>{cartItem.product.name}</Text>
-        <Text style={styles.size}>Size {cartItem.size}</Text>
-
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
+          <View>
+            <Text style={styles.name}>{cartItem.newItem.name}</Text>
+            <Text style={styles.size}>Size {cartItem.newItem.size}</Text>
+          </View>
+          <Feather onPress={removeItem} name="x-circle" size={32} color="red" />
+        </View>
         <View style={styles.footer}>
           <Feather
             onPress={increaseQuantity}
@@ -20,14 +38,14 @@ const CartListItem = ({ cartItem }: any) => {
             size={24}
             color="gray"
           />
-          <Text style={styles.quantity}>{cartItem.quantity}</Text>
+          <Text style={styles.quantity}>{cartItem.newItem.quantity}</Text>
           <Feather
             onPress={decreaseQuantity}
             name="plus-circle"
             size={24}
             color="gray"
           />
-          <Text style={styles.itemTotal}>$320.0</Text>
+          <Text style={styles.itemTotal}>${cartItem.newItem.price}</Text>
         </View>
       </View>
     </View>

@@ -8,7 +8,8 @@ import {
   ScrollView,
   Pressable,
 } from "react-native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setCartItems } from "../context/cartSlice";
 
 type Props = {};
 
@@ -16,8 +17,13 @@ const ProductDetailScreen = (props: Props) => {
   //@ts-ignore
   const product = useSelector((state) => state.product.selectedProduct);
 
+  const dispatch = useDispatch();
+
   const { width } = useWindowDimensions();
 
+  const addItem = () => {
+    dispatch(setCartItems(product));
+  };
   return (
     <View>
       <ScrollView>
@@ -32,14 +38,13 @@ const ProductDetailScreen = (props: Props) => {
           showsHorizontalScrollIndicator={false}
           pagingEnabled={true}
         />
-
         <View style={{ padding: 20 }}>
           <Text style={styles.title}>{product.name}</Text>
           <Text style={styles.price}>${product.price}</Text>
           <Text style={styles.description}>{product.description}</Text>
         </View>
       </ScrollView>
-      <Pressable style={styles.button} onPress={() => alert("pressed")}>
+      <Pressable style={styles.button} onPress={addItem}>
         <Text style={styles.buttonText}>Add to Cart</Text>
       </Pressable>
     </View>

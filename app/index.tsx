@@ -21,6 +21,7 @@ const ProductScreen = (props: Props) => {
   };
   //@ts-ignore
   const products = useSelector((state): any => state.product.products);
+  const cartItems = useSelector((state) => state.cart.cartItems);
   const dispatch = useDispatch();
 
   return (
@@ -33,28 +34,8 @@ const ProductScreen = (props: Props) => {
           onPress={() => handleRouting("/MenuModal")}
         />
         <Pressable onPress={() => handleRouting("/ShoppingCart")}>
-          <View
-            style={{
-              position: "absolute",
-              right: 0,
-              backgroundColor: "red",
-              height: 20,
-              aspectRatio: 1,
-              borderRadius: 50,
-              zIndex: 1,
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <Text
-              style={{
-                color: "white",
-                alignSelf: "center",
-                fontWeight: "bold",
-              }}
-            >
-              3
-            </Text>
+          <View style={styles.redCircle}>
+            <Text style={styles.redCircleText}>{cartItems.length}</Text>
           </View>
           <MaterialIcons
             name="shopping-cart"
@@ -100,6 +81,22 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     paddingHorizontal: 20,
+  },
+  redCircle: {
+    position: "absolute",
+    right: 0,
+    backgroundColor: "red",
+    height: 20,
+    aspectRatio: 1,
+    borderRadius: 50,
+    zIndex: 1,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  redCircleText: {
+    color: "white",
+    fontWeight: "bold",
   },
 });
 
