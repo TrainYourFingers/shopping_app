@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { setCartItems } from "../context/cartSlice";
+import Toast from "react-native-root-toast";
 
 type Props = {};
 
@@ -38,7 +39,7 @@ const ProductDetailScreen = (props: Props) => {
           showsHorizontalScrollIndicator={false}
           pagingEnabled={true}
         />
-        <View style={{ padding: 20 }}>
+        <View style={{ padding: 20, paddingBottom: 100 }}>
           <Text style={styles.title}>{product.name}</Text>
           <Text style={styles.price}>${product.price}</Text>
           <Text style={styles.description}>{product.description}</Text>

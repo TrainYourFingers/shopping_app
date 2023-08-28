@@ -1,18 +1,21 @@
 import { StyleSheet, Text, View } from "react-native";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
 
 type Props = {};
 
 const ShoppingCartTotals = (props: Props) => {
+  const delivery = 30;
   //@ts-ignore
   const cartItem = useSelector((state) => state.cart.cartItems);
-  const [subTotal, setSubTotal] = useState<number>(0);
-  const [total, setTotal] = useState<number>(0);
-  useEffect(() => {
-    //@ts-ignore
-    cartItem.map((item) => setSubTotal(item.newItem.price + subTotal));
+
+  const subTotal = useMemo(() => {
+    return cartItem.reduce((acc, item) => acc + item?.quantity * item.price, 0);
   }, [cartItem]);
+
+  const total = useMemo(() => {
+    return subTotal + delivery;
+  }, [subTotal]);
 
   return (
     <View style={styles.container}>
@@ -26,7 +29,7 @@ const ShoppingCartTotals = (props: Props) => {
       </View>
       <View style={styles.row}>
         <Text style={styles.textBold}>Total</Text>
-        <Text style={styles.textBold}>${total}</Text>
+        <Text style={styles.textBold}>${subTotal === 0 ? 0 : total}</Text>
       </View>
     </View>
   );

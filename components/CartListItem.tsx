@@ -1,22 +1,30 @@
 import { View, Text, StyleSheet, Image } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
-import { removeCartItems } from "../context/cartSlice";
+import {
+  removeCartItems,
+  setCartItems,
+  decreaseQuantity as reduceQuantity,
+} from "../context/cartSlice";
 
 const CartListItem = ({ cartItem }: any) => {
   const dispatch = useDispatch();
 
-  const increaseQuantity = () => {};
+  const increaseQuantity = () => {
+    dispatch(setCartItems(cartItem));
+  };
 
-  const decreaseQuantity = () => {};
+  const decreaseQuantity = () => {
+    dispatch(reduceQuantity(cartItem.id));
+  };
 
-  const removeItem = () => {
-    dispatch(removeCartItems(cartItem.newItem.id));
+  const removeItem = (id) => {
+    dispatch(removeCartItems(id));
   };
 
   return (
     <View style={styles.container}>
-      <Image source={{ uri: cartItem.newItem.image }} style={styles.image} />
+      <Image source={{ uri: cartItem?.image }} style={styles.image} />
       <View style={styles.contentContainer}>
         <View
           style={{
@@ -26,26 +34,31 @@ const CartListItem = ({ cartItem }: any) => {
           }}
         >
           <View>
-            <Text style={styles.name}>{cartItem.newItem.name}</Text>
-            <Text style={styles.size}>Size {cartItem.newItem.size}</Text>
+            <Text style={styles.name}>{cartItem?.name}</Text>
+            <Text style={styles.size}>Size {cartItem?.size}</Text>
           </View>
-          <Feather onPress={removeItem} name="x-circle" size={32} color="red" />
+          <Feather
+            onPress={() => removeItem(cartItem?.id)}
+            name="x-circle"
+            size={32}
+            color="red"
+          />
         </View>
         <View style={styles.footer}>
           <Feather
-            onPress={increaseQuantity}
+            onPress={decreaseQuantity}
             name="minus-circle"
             size={24}
             color="gray"
           />
-          <Text style={styles.quantity}>{cartItem.newItem.quantity}</Text>
+          <Text style={styles.quantity}>{cartItem?.quantity}</Text>
           <Feather
-            onPress={decreaseQuantity}
+            onPress={increaseQuantity}
             name="plus-circle"
             size={24}
             color="gray"
           />
-          <Text style={styles.itemTotal}>${cartItem.newItem.price}</Text>
+          <Text style={styles.itemTotal}>${cartItem?.price}</Text>
         </View>
       </View>
     </View>
