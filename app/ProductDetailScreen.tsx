@@ -11,7 +11,6 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { setCartItems } from "../context/cartSlice";
 import Toaster from "../components/common/Toaster";
-import toast from "../components/common/toast";
 
 type Props = {};
 
@@ -25,7 +24,6 @@ const ProductDetailScreen = (props: Props) => {
 
   const addItem = () => {
     dispatch(setCartItems(product));
-    toast.success({ message: "Item Added Successfully" });
   };
   return (
     <View>
@@ -45,6 +43,22 @@ const ProductDetailScreen = (props: Props) => {
         <View style={{ padding: 20, paddingBottom: 100 }}>
           <Text style={styles.title}>{product.name}</Text>
           <Text style={styles.price}>${product.price}</Text>
+          <View style={{ display: "flex", flexDirection: "row" }}>
+            {product.sizes.map((item, index) => (
+              <View
+                key={index}
+                style={{
+                  backgroundColor: "white",
+                  padding: 5,
+                  margin: 5,
+                  borderWidth: 1,
+                  borderColor: "gray",
+                }}
+              >
+                <Text>{item}</Text>
+              </View>
+            ))}
+          </View>
           <Text style={styles.description}>{product.description}</Text>
         </View>
       </ScrollView>

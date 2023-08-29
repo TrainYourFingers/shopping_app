@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import toast from "../components/common/toast";
 
 const initialState = {
   cartItems: [],
@@ -21,6 +22,9 @@ const cartSlice = createSlice({
         //@ts-ignore
         state.cartItems = [...state.cartItems, { ...newItem, quantity: 1 }];
       }
+      toast.success({
+        icon: "check",
+      });
     },
     removeCartItems: (state, action) => {
       state.cartItems = state.cartItems.filter(

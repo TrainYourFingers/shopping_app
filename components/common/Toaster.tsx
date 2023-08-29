@@ -1,13 +1,25 @@
 import { View, Text, DeviceEventEmitter, StyleSheet } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import Lottie from "lottie-react-native";
 
-type Props = {};
+const Toaster = () => {
+  const [icon, setIcon] = useState<string>("");
+  const animationRef = useRef<Lottie>(null);
+  const [isVisible, setIsVisible] = useState<boolean>(false);
 
-const Toaster = (props: Props) => {
-  const [message, setMessage] = useState<string>("");
-
-  const onNewToast = (data: string) => {
-    setMessage(data.message);
+  const onNewToast = (data: any) => {
+    switch (data.icon) {
+      case "check":
+        setIcon(require("../../assets/animation/check.json"));
+        break;
+      case "error":
+        setIcon(require("../../assets/animation/check.json"));
+        break;
+      default:
+        return null;
+    }
+    setIsVisible(true);
+    animationRef?.current?.play();
   };
 
   useEffect(() => {
@@ -18,11 +30,25 @@ const Toaster = (props: Props) => {
     };
   }, []);
 
-  if (!message) return null;
-
   return (
     <View style={styles.container}>
-      <Text style={styles.message}>{message}</Text>
+      {isVisible && (
+        <Lottie
+          ref={animationRef}
+          source={icon}
+          autoPlay={true}
+          loop={false}
+          style={{
+            width: 75,
+            height: 75,
+          }}
+          onAnimationFinish={() => {
+            setTimeout(() => {
+              setIsVisible(false);
+            }, 1000);
+          }}
+        />
+      )}
     </View>
   );
 };
@@ -31,19 +57,12 @@ const styles = StyleSheet.create({
   container: {
     position: "absolute",
     top: "1%",
-    backgroundColor: "limegreen",
-    borderRadius: 50,
-    width: "70%",
+    width: "100%",
+    padding: 10,
     zIndex: 1,
     elevation: 1,
-    padding: 10,
-    alignSelf: "center",
-  },
-  message: {
-    color: "white",
-    fontSize: 18,
-    fontWeight: "500",
-    textAlign: "center",
+    display: "flex",
+    alignItems: "center",
   },
 });
 
