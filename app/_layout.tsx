@@ -27,7 +27,12 @@ export default function RootLayout() {
         />
         <Stack.Screen
           name="ProductDetailScreen"
-          options={{ presentation: "modal" }}
+          options={{
+            headerShown: true,
+            presentation: "modal",
+            title: "Details",
+            headerTitleAlign: "center",
+          }}
         />
         <Stack.Screen
           name="ShoppingCart"
