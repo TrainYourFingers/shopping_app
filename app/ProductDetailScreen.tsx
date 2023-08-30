@@ -42,7 +42,10 @@ const ProductDetailScreen = (props: Props) => {
           data={product.images}
           renderItem={({ item }) => {
             return (
-              <Image source={{ uri: item }} style={{ width, aspectRatio: 1 }} />
+              <Image
+                source={{ uri: item }}
+                style={{ width: width > 700 ? 700 : width, aspectRatio: 1 }}
+              />
             );
           }}
           horizontal={true}
@@ -118,7 +121,7 @@ const styles = StyleSheet.create({
     borderColor: "gray",
   },
   pressedButton: {
-    backgroundColor: "white",
+    backgroundColor: "lightblue",
     padding: 5,
     margin: 5,
     borderWidth: 1,

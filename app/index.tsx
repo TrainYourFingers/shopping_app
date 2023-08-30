@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Pressable,
   Text,
+  useWindowDimensions,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { router } from "expo-router";
@@ -12,7 +13,9 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { setProduct } from "../context/productSlice";
 import { ITEM } from "../types";
+import { useState } from "react";
 
+const { width } = useWindowDimensions();
 type Props = {};
 
 const ProductScreen = (props: Props) => {
@@ -60,7 +63,7 @@ const ProductScreen = (props: Props) => {
               </Pressable>
             );
           }}
-          numColumns={2}
+          numColumns={width > 600 ? 3 : 2}
         />
       </View>
     </SafeAreaView>
@@ -79,7 +82,7 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
   },
   itemContainer: {
-    width: "50%",
+    width: width > 600 ? "33.33%" : "50%",
   },
   header: {
     flexDirection: "row",
