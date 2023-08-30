@@ -11,6 +11,7 @@ import { router } from "expo-router";
 import { MaterialIcons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { setProduct } from "../context/productSlice";
+import { ITEM } from "../types";
 
 type Props = {};
 
@@ -20,8 +21,9 @@ const ProductScreen = (props: Props) => {
     router.push(route);
   };
   //@ts-ignore
-  const products = useSelector((state): any => state.product.products);
-  const cartItems = useSelector((state) => state.cart.cartItems);
+  const products = useSelector((state): ITEM => state.product.products);
+  //@ts-ignore
+  const cartItems = useSelector((state): ITEM => state.cart.cartItems);
   const dispatch = useDispatch();
 
   return (
@@ -45,20 +47,22 @@ const ProductScreen = (props: Props) => {
           />
         </Pressable>
       </View>
-      <FlatList
-        data={products}
-        renderItem={({ item }) => {
-          return (
-            <Pressable
-              style={styles.itemContainer}
-              onPress={() => dispatch(setProduct(item.id))}
-            >
-              <Image source={{ uri: item.image }} style={styles.image} />
-            </Pressable>
-          );
-        }}
-        numColumns={2}
-      />
+      <View style={styles.flatlist}>
+        <FlatList
+          data={products}
+          renderItem={({ item }) => {
+            return (
+              <Pressable
+                style={styles.itemContainer}
+                onPress={() => dispatch(setProduct(item.id))}
+              >
+                <Image source={{ uri: item.image }} style={styles.image} />
+              </Pressable>
+            );
+          }}
+          numColumns={2}
+        />
+      </View>
     </SafeAreaView>
   );
 };
@@ -97,6 +101,9 @@ const styles = StyleSheet.create({
   redCircleText: {
     color: "white",
     fontWeight: "bold",
+  },
+  flatlist: {
+    paddingBottom: 100,
   },
 });
 

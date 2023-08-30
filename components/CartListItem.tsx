@@ -18,8 +18,8 @@ const CartListItem = ({ cartItem }: any) => {
     dispatch(reduceQuantity(cartItem.id));
   };
 
-  const removeItem = (id) => {
-    dispatch(removeCartItems(id));
+  const removeItem = (id: number, selectedSize: number) => {
+    dispatch(removeCartItems({ id, selectedSize }));
   };
 
   return (
@@ -35,10 +35,10 @@ const CartListItem = ({ cartItem }: any) => {
         >
           <View>
             <Text style={styles.name}>{cartItem?.name}</Text>
-            <Text style={styles.size}>Size {cartItem?.size}</Text>
+            <Text style={styles.size}>Size {cartItem?.selectedSize}</Text>
           </View>
           <Feather
-            onPress={() => removeItem(cartItem?.id)}
+            onPress={() => removeItem(cartItem?.id, cartItem?.selectedSize)}
             name="x-circle"
             size={32}
             color="red"

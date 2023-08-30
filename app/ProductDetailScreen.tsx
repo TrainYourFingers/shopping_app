@@ -11,20 +11,29 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { setCartItems } from "../context/cartSlice";
 import Toaster from "../components/common/Toaster";
+import { useState } from "react";
 
 type Props = {};
 
 const ProductDetailScreen = (props: Props) => {
   //@ts-ignore
   const product = useSelector((state) => state.product.selectedProduct);
+  const [size, setSize] = useState<number>(0);
+  const [disabled, setDisabled] = useState<boolean>(true);
 
   const dispatch = useDispatch();
 
   const { width } = useWindowDimensions();
 
   const addItem = () => {
-    dispatch(setCartItems(product));
+    dispatch(setCartItems({ ...product, selectedSize: size }));
   };
+
+  const sizeSelection = (size: number) => {
+    setDisabled(false);
+    setSize(size);
+  };
+
   return (
     <View>
       <Toaster />
@@ -44,25 +53,22 @@ const ProductDetailScreen = (props: Props) => {
           <Text style={styles.title}>{product.name}</Text>
           <Text style={styles.price}>${product.price}</Text>
           <View style={{ display: "flex", flexDirection: "row" }}>
-            {product.sizes.map((item, index) => (
-              <View
+            {product.sizes.map((item: any, index: number) => (
+              <Pressable
                 key={index}
-                style={{
-                  backgroundColor: "white",
-                  padding: 5,
-                  margin: 5,
-                  borderWidth: 1,
-                  borderColor: "gray",
-                }}
+                style={({ pressed }) =>
+                  pressed ? styles.pressedButton : styles.unpressedButton
+                }
+                onPress={() => sizeSelection(item)}
               >
                 <Text>{item}</Text>
-              </View>
+              </Pressable>
             ))}
           </View>
           <Text style={styles.description}>{product.description}</Text>
         </View>
       </ScrollView>
-      <Pressable style={styles.button} onPress={addItem}>
+      <Pressable style={styles.button} onPress={addItem} disabled={disabled}>
         <Text style={styles.buttonText}>Add to Cart</Text>
       </Pressable>
     </View>
@@ -103,6 +109,20 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 18,
     fontWeight: "600",
+  },
+  unpressedButton: {
+    backgroundColor: "white",
+    padding: 5,
+    margin: 5,
+    borderWidth: 1,
+    borderColor: "gray",
+  },
+  pressedButton: {
+    backgroundColor: "white",
+    padding: 5,
+    margin: 5,
+    borderWidth: 1,
+    borderColor: "blue",
   },
 });
 

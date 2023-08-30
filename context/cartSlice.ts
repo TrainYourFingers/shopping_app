@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import toast from "../components/common/toast";
+import { ITEM } from "../types";
 
 const initialState = {
   cartItems: [],
@@ -13,8 +14,11 @@ const cartSlice = createSlice({
   reducers: {
     setCartItems: (state, action) => {
       const newItem = action.payload;
-      const existingItem = state.cartItems.find(
-        (item) => item.id.toString() === newItem.id.toString()
+      //@ts-ignore
+      const existingItem: ITEM = state.cartItems.find(
+        (item: ITEM) =>
+          item.id.toString() === newItem.id.toString() &&
+          item.selectedSize === newItem.selectedSize
       );
       if (existingItem) {
         existingItem.quantity += 1;
@@ -29,12 +33,19 @@ const cartSlice = createSlice({
     removeCartItems: (state, action) => {
       state.cartItems = state.cartItems.filter(
         //@ts-ignore
-        (item) => item.id.toString() !== action.payload.toString()
+        (item: ITEM) => {
+          if (item.id.toString() !== action.payload.id.toString()) return item;
+          else if (
+            item.id.toString() === action.payload.id.toString() &&
+            item.selectedSize !== action.payload.selectedSize
+          )
+            return item;
+        }
       );
     },
     decreaseQuantity: (state, action) => {
-      let newArray = [];
-      state.cartItems.forEach((item) => {
+      let newArray: ITEM[] = [];
+      state.cartItems.forEach((item: ITEM) => {
         if (
           item.id.toString() === action.payload.toString() &&
           item.quantity > 1
@@ -49,6 +60,7 @@ const cartSlice = createSlice({
           newArray.push(item);
         }
       });
+      //@ts-ignore
       state.cartItems = newArray;
     },
   },

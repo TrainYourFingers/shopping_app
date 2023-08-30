@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import { useState, useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
+import { ITEM } from "../types";
 
 type Props = {};
 
@@ -10,7 +11,10 @@ const ShoppingCartTotals = (props: Props) => {
   const cartItem = useSelector((state) => state.cart.cartItems);
 
   const subTotal = useMemo(() => {
-    return cartItem.reduce((acc, item) => acc + item?.quantity * item.price, 0);
+    return cartItem.reduce(
+      (acc: number, item: ITEM) => acc + item?.quantity * item.price,
+      0
+    );
   }, [cartItem]);
 
   const total = useMemo(() => {

@@ -16,6 +16,7 @@ const ShoppingCart = (props: Props) => {
       <FlatList
         data={addedItem}
         renderItem={({ item }) => <CartListItem cartItem={item} />}
+        keyExtractor={(item) => item.id + item.selectedSize}
         ListFooterComponent={() => <ShoppingCartTotals />}
       />
       <Pressable style={styles.button}>
