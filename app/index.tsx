@@ -15,7 +15,6 @@ import { setProduct } from "../context/productSlice";
 import { ITEM } from "../types";
 import { useState } from "react";
 
-const { width } = useWindowDimensions();
 type Props = {};
 
 const ProductScreen = (props: Props) => {
@@ -28,6 +27,8 @@ const ProductScreen = (props: Props) => {
   //@ts-ignore
   const cartItems = useSelector((state): ITEM => state.cart.cartItems);
   const dispatch = useDispatch();
+
+  const { width } = useWindowDimensions();
 
   return (
     <SafeAreaView>
@@ -56,7 +57,7 @@ const ProductScreen = (props: Props) => {
           renderItem={({ item }) => {
             return (
               <Pressable
-                style={styles.itemContainer}
+                style={{ width: width > 600 ? "33.33%" : "50%" }}
                 onPress={() => dispatch(setProduct(item.id))}
               >
                 <Image source={{ uri: item.image }} style={styles.image} />
@@ -80,9 +81,6 @@ const styles = StyleSheet.create({
   image: {
     width: "100%",
     aspectRatio: 1,
-  },
-  itemContainer: {
-    width: width > 600 ? "33.33%" : "50%",
   },
   header: {
     flexDirection: "row",

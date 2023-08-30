@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     padding: 5,
     margin: 5,
     borderWidth: 1,
-    borderColor: "blue",
+    borderColor: "skyblue",
   },
 });
 
