@@ -20,6 +20,7 @@ const ProductDetailScreen = (props: Props) => {
   const product = useSelector((state) => state.product.selectedProduct);
   const [size, setSize] = useState<number>(0);
   const [disabled, setDisabled] = useState<boolean>(true);
+  const [active, setActive] = useState<any>(null);
 
   const dispatch = useDispatch();
 
@@ -32,6 +33,7 @@ const ProductDetailScreen = (props: Props) => {
   const sizeSelection = (size: number) => {
     setDisabled(false);
     setSize(size);
+    setActive(size);
   };
 
   return (
@@ -59,8 +61,10 @@ const ProductDetailScreen = (props: Props) => {
             {product.sizes.map((item: any, index: number) => (
               <Pressable
                 key={index}
-                style={({ pressed }) =>
-                  pressed ? styles.pressedButton : styles.unpressedButton
+                style={
+                  active === item
+                    ? styles.pressedButton
+                    : styles.unpressedButton
                 }
                 onPress={() => sizeSelection(item)}
               >
@@ -71,7 +75,11 @@ const ProductDetailScreen = (props: Props) => {
           <Text style={styles.description}>{product.description}</Text>
         </View>
       </ScrollView>
-      <Pressable style={styles.button} onPress={addItem} disabled={disabled}>
+      <Pressable
+        style={disabled ? styles.disabledButton : styles.button}
+        onPress={addItem}
+        disabled={disabled}
+      >
         <Text style={styles.buttonText}>Add to Cart</Text>
       </Pressable>
     </View>
@@ -108,6 +116,17 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     alignItems: "center",
   },
+  disabledButton: {
+    position: "absolute",
+    backgroundColor: "black",
+    bottom: 30,
+    width: "80%",
+    alignSelf: "center",
+    padding: 20,
+    borderRadius: 50,
+    alignItems: "center",
+    opacity: 0.75,
+  },
   buttonText: {
     color: "white",
     fontSize: 18,
@@ -125,7 +144,7 @@ const styles = StyleSheet.create({
     padding: 5,
     margin: 5,
     borderWidth: 1,
-    borderColor: "skyblue",
+    borderColor: "gray",
   },
 });
 

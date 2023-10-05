@@ -1,17 +1,53 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 
 type Props = {};
 
 const MenuModal = (props: Props) => {
   return (
-    <View>
-      <Text style={styles.text}>Nike</Text>
-      <Text style={styles.text}>Adidas</Text>
-      <Text style={styles.text}>Sketchers</Text>
-      <Text style={styles.text}>New Balance</Text>
-      <Text style={styles.text}>About Us</Text>
-      <Text style={styles.text}>Enquiry</Text>
+    <View style={styles.container}>
+      <View>
+        <View style={styles.textContainer}>
+          <Text style={styles.text}>Nike</Text>
+        </View>
+        <View style={styles.textContainer}>
+          <Text style={styles.text}>Adidas</Text>
+        </View>
+        <View style={styles.textContainer}>
+          <Text style={styles.text}>Sketchers</Text>
+        </View>
+        <View style={styles.textContainer}>
+          <Text style={styles.text}>New Balance</Text>
+        </View>
+      </View>
+      <View>
+        <TouchableOpacity
+          style={{ backgroundColor: "black", borderRadius: 10 }}
+        >
+          <Text
+            style={{
+              color: "white",
+              paddingVertical: 10,
+              fontWeight: "500",
+              fontSize: 20,
+              textAlign: "center",
+            }}
+          >
+            Login
+          </Text>
+        </TouchableOpacity>
+
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+          }}
+        >
+          <Text style={styles.text}>About Us</Text>
+          <Text style={styles.text}>Enquiry</Text>
+        </View>
+      </View>
     </View>
   );
 };
@@ -19,9 +55,21 @@ const MenuModal = (props: Props) => {
 export default MenuModal;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "space-between",
+    alignContent: "space-between",
+    paddingHorizontal: 40,
+  },
+  textContainer: {
+    borderBottomWidth: 1,
+    borderBottomColor: "silver",
+  },
   text: {
     textAlign: "center",
-    padding: 10,
+    padding: 15,
     fontSize: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: "silver",
   },
 });
