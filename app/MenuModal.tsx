@@ -1,9 +1,15 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
+import { router } from "expo-router";
 
 type Props = {};
 
 const MenuModal = (props: Props) => {
+  const handleRouting = (route: string) => {
+    //@ts-ignore
+    router.push(route);
+  };
+
   return (
     <View style={styles.container}>
       <View>
@@ -23,6 +29,7 @@ const MenuModal = (props: Props) => {
       <View>
         <TouchableOpacity
           style={{ backgroundColor: "black", borderRadius: 10 }}
+          onPress={() => handleRouting("/Login")}
         >
           <Text
             style={{
